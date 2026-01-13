@@ -68,6 +68,15 @@ void executor_handle_packet(const packet_header_t *hdr,
         break;
 
     /* ================= SYSTEM ================= */
+    
+    case CMD_UART_TEST:
+    ESP_LOGI(TAG,
+             "UART TEST RX seq=%lu p16=0x%04X p32=0x%08lX",
+             hdr->sequence,
+             cmd->param16,
+             cmd->param32);
+    break;
+
 
     case CMD_STOP_TEST:
         /* Safety: STOP always forces relays OFF */

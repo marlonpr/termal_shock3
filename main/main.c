@@ -27,7 +27,7 @@ void app_main(void)
         "uart_link_task",
         4096,
         NULL,
-        10,
+        1,
         &uart_task_handle
     );
 

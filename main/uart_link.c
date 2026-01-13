@@ -76,6 +76,10 @@ static void process_rx_buffer(void)
             executor_handle_packet(&hdr, payload);
             break;
 
+		case PKT_STATUS:
+		    /* Actuator ignores STATUS packets */
+		    break;
+
         default:
             ESP_LOGW(TAG,
                      "Unhandled packet type: 0x%02X",
