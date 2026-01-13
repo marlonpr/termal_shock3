@@ -5,9 +5,9 @@
 /* ============================================================
  * UART – MASTER LINK
  * ============================================================ */
-#define UART_RELAY   UART_NUM_1
-#define PIN_UART_RELAY_TX        GPIO_NUM_1
-#define PIN_UART_RELAY_RX        GPIO_NUM_3
+#define UART_RELAY   UART_NUM_2
+#define PIN_UART_RELAY_TX        GPIO_NUM_17
+#define PIN_UART_RELAY_RX        GPIO_NUM_16
 
 /* ============================================================
  * RELAY OUTPUTS
