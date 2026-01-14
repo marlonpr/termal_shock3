@@ -9,7 +9,7 @@
 /* ================= RELAYS ================= */
 
 /* HOT */
-static const gpio_num_t RELAY_COLD_PINS[4] = {
+static const gpio_num_t RELAY_HOT_PINS[4] = {
     GPIO_NUM_18,
     GPIO_NUM_19,
     GPIO_NUM_21,
@@ -17,7 +17,7 @@ static const gpio_num_t RELAY_COLD_PINS[4] = {
 };
 
 /* COLD */
-static const gpio_num_t RELAY_HOT_PINS[4] = {
+static const gpio_num_t RELAY_COLD_PINS[4] = {
     GPIO_NUM_23,
     GPIO_NUM_25,
     GPIO_NUM_26,
