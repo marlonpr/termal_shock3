@@ -85,17 +85,16 @@ void relay_all_off(void)
 
     ESP_LOGW(TAG, "All relays OFF");
 }
-
 void relay_force(uint16_t mask)
 {
     /*
      * mask bits:
-     *   [3:0]  HOT relays
-     *   [7:4]  COLD relays
+     *   [7:0]   HOT relays
+     *   [15:8]  COLD relays
      */
 
-    uint8_t req_hot  =  mask        & 0x0F;
-    uint8_t req_cold = (mask >> 4)  & 0x0F;
+    uint8_t req_hot  =  mask        & 0xFF;
+    uint8_t req_cold = (mask >> 8)  & 0xFF;
 
     if (!floats_safe()) {
         ESP_LOGE(TAG, "Float unsafe → RELAYS OFF");
@@ -119,6 +118,7 @@ void relay_force(uint16_t mask)
              "Relay state: HOT=0x%X COLD=0x%X",
              hot_mask, cold_mask);
 }
+
 
 uint8_t relay_hot_mask(void)
 {
