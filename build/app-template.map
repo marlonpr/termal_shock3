@@ -16535,9 +16535,9 @@ LOAD C:/Users/Marlon/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-
                 0x3f408a60       0x37 esp-idf/main/libmain.a(relay.c.obj)
  .rodata.relay_force.str1.4
                 0x3f408a60       0x6d esp-idf/main/libmain.a(relay.c.obj)
- .rodata.RELAY_COLD_PINS
-                0x3f408a60       0x10 esp-idf/main/libmain.a(relay.c.obj)
  .rodata.RELAY_HOT_PINS
+                0x3f408a60       0x10 esp-idf/main/libmain.a(relay.c.obj)
+ .rodata.RELAY_COLD_PINS
                 0x3f408a70       0x10 esp-idf/main/libmain.a(relay.c.obj)
  .rodata.process_rx_buffer.str1.4
                 0x3f408a80       0xa3 esp-idf/main/libmain.a(uart_link.c.obj)
