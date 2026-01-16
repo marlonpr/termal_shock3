@@ -6,6 +6,9 @@
 #define PIN_UART_RELAY_TX GPIO_NUM_17
 #define PIN_UART_RELAY_RX GPIO_NUM_16
 
+#define PIN_FLOAT_1         GPIO_NUM_34
+#define PIN_FLOAT_2         GPIO_NUM_35
+
 /* ================= RELAYS ================= */
 
 /* HOT (now 6) */
@@ -36,8 +39,7 @@ static const gpio_num_t RELAY_COLD_PINS[6] = {
  * OPTIONAL: FLOAT SWITCH INPUTS (if locally wired later)
  * ============================================================ */
 /*
-#define PIN_FLOAT_1         GPIO_NUM_21
-#define PIN_FLOAT_2         GPIO_NUM_22
+
 */
 
 /* ============================================================

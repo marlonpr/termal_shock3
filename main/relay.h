@@ -26,3 +26,4 @@ bool relay_is_cold_on(void);
 
 uint8_t relay_hot_mask(void);
 uint8_t relay_cold_mask(void);
+void apply_outputs(void);

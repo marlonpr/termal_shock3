@@ -6,6 +6,17 @@
 #define PROTOCOL_VERSION  1
 #define PACKET_MAGIC      0xA5
 #define CMD_UART_TEST   0xF0
+#define CMD_SET_SINGLE_RELAY   0x35
+
+typedef enum {
+    RELAY_DOMAIN_HOT  = 0,
+    RELAY_DOMAIN_COLD = 1,
+} relay_domain_t;
+
+#define SINGLE_RELAY_PAYLOAD(domain, index, state) \
+    ( ((uint16_t)(index) << 8) | ((domain) << 7) | ((state) & 0x01) )
+
+
 
 
 /* ================= MODE DEFINITIONS (WIRE LEVEL) ================= */
@@ -14,6 +25,8 @@
 #define MODE_OFF   0x00
 #define MODE_HOT   0x01
 #define MODE_COLD  0x02
+
+
 
 
 /* ================= PACKET TYPES ================= */
