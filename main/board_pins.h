@@ -8,24 +8,29 @@
 
 /* ================= RELAYS ================= */
 
-/* HOT */
-static const gpio_num_t RELAY_HOT_PINS[4] = {
-    GPIO_NUM_18,
-    GPIO_NUM_19,
-    GPIO_NUM_21,
-    GPIO_NUM_22
+/* HOT (now 6) */
+static const gpio_num_t RELAY_HOT_PINS[6] = {
+    GPIO_NUM_18,//
+    GPIO_NUM_12,//
+    GPIO_NUM_25,//                             
+    GPIO_NUM_23,//
+    GPIO_NUM_19,   // 19
+    GPIO_NUM_4    // 
 };
 
-/* COLD */
-static const gpio_num_t RELAY_COLD_PINS[4] = {
-    GPIO_NUM_23,
-    GPIO_NUM_25,
-    GPIO_NUM_26,
-    GPIO_NUM_27
+/* COLD (now 6) */
+static const gpio_num_t RELAY_COLD_PINS[6] = {
+    GPIO_NUM_21, //
+    GPIO_NUM_22,//
+    GPIO_NUM_26,//
+    GPIO_NUM_27,//
+    GPIO_NUM_14,   // 14
+    GPIO_NUM_15    // 
 };
 
-#define RELAY_HOT_COUNT  4
-#define RELAY_COLD_COUNT 4
+#define RELAY_HOT_COUNT   6
+#define RELAY_COLD_COUNT  6
+
 
 /* ============================================================
  * OPTIONAL: FLOAT SWITCH INPUTS (if locally wired later)

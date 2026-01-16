@@ -55,52 +55,28 @@ void executor_handle_packet(const packet_header_t *hdr,
     uint8_t status = ACK_OK;
 
     switch (cmd->cmd_id) {
+	
+		case CMD_FORCE_RELAY:
+		    send_ack(hdr->sequence, cmd->cmd_id, ACK_OK);
+		    relay_force(cmd->param16);
+		    return;
+		
+		case CMD_STOP_TEST:
+		    send_ack(hdr->sequence, cmd->cmd_id, ACK_OK);
+		    relay_all_off();
+		    return;
+		
+		case CMD_UART_TEST:
+		    ESP_LOGI(TAG, "UART TEST RX seq=%lu", hdr->sequence);
+		    send_ack(hdr->sequence, cmd->cmd_id, ACK_OK);
+		    return;
+		
+		default:
+		    status = ACK_ERR_INVALID;
+		    break;
+	}
+	
+	/* fallback ACK */
+	send_ack(hdr->sequence, cmd->cmd_id, status);
 
-    /* ================= RELAY CONTROL ================= */
-
-    case CMD_FORCE_RELAY:
-        /*
-         * param16 bitmask:
-         *  bit0 = HOT
-         *  bit1 = COLD
-         */
-        relay_force(cmd->param16);
-        break;
-
-    /* ================= SYSTEM ================= */
-    
-    case CMD_UART_TEST:
-    ESP_LOGI(TAG,
-             "UART TEST RX seq=%lu p16=0x%04X p32=0x%08lX",
-             hdr->sequence,
-             cmd->param16,
-             cmd->param32);
-    break;
-
-
-    case CMD_STOP_TEST:
-        /* Safety: STOP always forces relays OFF */
-        relay_all_off();
-        break;
-
-    case CMD_REQUEST_STATE:
-        /* Actuator has no state machine; ACK only */
-        break;
-
-    /* ================= UNSUPPORTED ================= */
-
-    case CMD_START_TEST:
-    case CMD_SET_MODE:
-    case CMD_SYNC_TIME:
-        ESP_LOGW(TAG, "Command not supported on actuator");
-        status = ACK_ERR_INVALID;
-        break;
-
-    default:
-        ESP_LOGW(TAG, "Unknown command 0x%02X", cmd->cmd_id);
-        status = ACK_ERR_UNKNOWN;
-        break;
-    }
-
-    send_ack(hdr->sequence, cmd->cmd_id, status);
 }
