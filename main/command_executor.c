@@ -8,6 +8,12 @@
 
 static const char *TAG = "CMD_EXEC";
 
+
+static uint8_t hot_mask;
+static uint8_t cold_mask;
+
+
+
 /* ================= ACK HELPER ================= */
 
 static void send_ack(uint32_t seq, uint8_t cmd_id, uint8_t status)
@@ -70,6 +76,51 @@ void executor_handle_packet(const packet_header_t *hdr,
 		    ESP_LOGI(TAG, "UART TEST RX seq=%lu", hdr->sequence);
 		    send_ack(hdr->sequence, cmd->cmd_id, ACK_OK);
 		    return;
+		    
+		    
+		    
+		    
+		case CMD_SET_SINGLE_RELAY:
+		{
+		    uint16_t p16 = cmd->param16;
+		
+		    uint8_t index  = (p16 >> 8) & 0xFF;
+		    uint8_t domain = (p16 >> 7) & 0x01;
+		    uint8_t state  =  p16       & 0x01;
+		
+		    if (index >= 8) {
+		        status = ACK_ERR_INVALID;
+		        break;
+		    }
+		
+		    if (domain == RELAY_DOMAIN_HOT) {
+		        if (state) {
+		            hot_mask |=  (1 << index);
+		        } else {
+		            hot_mask &= ~(1 << index);
+		        }
+		    } else {
+		        if (state) {
+		            cold_mask |=  (1 << index);
+		        } else {
+		            cold_mask &= ~(1 << index);
+		        }
+		    }
+		
+		    apply_outputs();
+		    break;
+		}
+
+
+		    
+		    
+		    
+		    ESP_LOGI("CMD", "SINGLE_RELAY p16=0x%04X", cmd->param16);
+
+		    
+
+		    
+		    
 		
 		default:
 		    status = ACK_ERR_INVALID;

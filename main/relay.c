@@ -18,7 +18,7 @@ static uint8_t cold_mask = 0;   /* bit0..bit3 → COLD relays */
  * INTERNAL HELPERS
  * ============================================================ */
 
-static void apply_outputs(void)
+void apply_outputs(void)
 {
     for (int i = 0; i < RELAY_HOT_COUNT; i++) {
         gpio_set_level(
