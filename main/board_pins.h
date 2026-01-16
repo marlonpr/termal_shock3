@@ -10,8 +10,8 @@
 
 /* HOT (now 6) */
 static const gpio_num_t RELAY_HOT_PINS[6] = {
-    GPIO_NUM_18,//
-    GPIO_NUM_12,//
+    GPIO_NUM_21,//
+    GPIO_NUM_22,//
     GPIO_NUM_25,//                             
     GPIO_NUM_23,//
     GPIO_NUM_19,   // 19
@@ -20,12 +20,12 @@ static const gpio_num_t RELAY_HOT_PINS[6] = {
 
 /* COLD (now 6) */
 static const gpio_num_t RELAY_COLD_PINS[6] = {
-    GPIO_NUM_21, //
-    GPIO_NUM_22,//
-    GPIO_NUM_26,//
-    GPIO_NUM_27,//
-    GPIO_NUM_14,   // 14
-    GPIO_NUM_15    // 
+    GPIO_NUM_18, //
+    GPIO_NUM_15,//
+    GPIO_NUM_12,//
+    GPIO_NUM_14,//
+    GPIO_NUM_27,   // 14
+    GPIO_NUM_26    // 
 };
 
 #define RELAY_HOT_COUNT   6
