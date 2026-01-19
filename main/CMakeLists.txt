@@ -6,6 +6,7 @@ idf_component_register(
         "app_data.c"
         "uart_link.c"
         "protocol.c"
+        "sensor.c"
     INCLUDE_DIRS
         "."
     REQUIRES

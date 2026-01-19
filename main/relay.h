@@ -5,11 +5,8 @@
 /*
  * Relay mask bits (param16 of CMD_FORCE_RELAY)
  *
- * bit0 = HOT relay
- * bit1 = COLD relay
  */
-#define RELAY_HOT_BIT   (1 << 0)
-#define RELAY_COLD_BIT  (1 << 1)
+
 
 /* Init GPIOs */
 void relay_init(void);
@@ -20,10 +17,9 @@ void relay_force(uint16_t mask);
 /* Immediate OFF (safety) */
 void relay_all_off(void);
 
-/* Status queries */
-bool relay_is_hot_on(void);
-bool relay_is_cold_on(void);
+/* Self-test */
+void relay_self_test_start(void);
+void relay_self_test_tick(void);
+bool relay_self_test_active(void);
 
-uint8_t relay_hot_mask(void);
-uint8_t relay_cold_mask(void);
-void apply_outputs(void);
+void sensors_update(bool float1, bool float2);

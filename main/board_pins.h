@@ -9,43 +9,76 @@
 #define PIN_FLOAT_1         GPIO_NUM_34
 #define PIN_FLOAT_2         GPIO_NUM_35
 
-/* ================= RELAYS ================= */
+/* ================= RELAYS =================
+ *
+ * Logical relay order:
+ * bit 0..3 : heaters
+ * bit 4    : pump
+ * bit 5    : fan
+ */
 
-/* HOT (now 6) */
-static const gpio_num_t RELAY_HOT_PINS[6] = {
-    GPIO_NUM_21,//
-    GPIO_NUM_22,//
-    GPIO_NUM_25,//                             
-    GPIO_NUM_23,//
-    GPIO_NUM_19,   // 19
-    GPIO_NUM_4    // 
+
+#define RELAY_MASK_COUNT     8
+#define RELAY_SENSOR_COUNT  4
+#define RELAY_TOTAL_COUNT   12
+
+#define RELAY_FLOAT1_A   1   // Relay 9
+#define RELAY_FLOAT1_B   2   // Relay 10
+#define RELAY_FLOAT2     3   // Relay 11
+
+
+
+
+typedef enum 
+{
+	//M1
+    RELAY_M1_1 = 0, //EV4
+    RELAY_M1_2,		//EV7		
+    RELAY_M1_3,		//EV2
+    RELAY_M1_4,		//EV1*
+
+	//M2
+    RELAY_M2_1,		//B1*
+    RELAY_M2_2,		//EV3
+    RELAY_M2_3,		//
+	RELAY_M2_4,		//
+
+	//M3
+    RELAY_M3_1,		//
+    RELAY_M3_2,		//B2
+    RELAY_M3_3,		//EV6
+	RELAY_M3_4,		//EV5*
+
+	RELAY_COUNT
+
+
+} relay_id_t;
+
+_Static_assert(RELAY_COUNT <= 16, "Relay count exceeds mask width");
+
+
+static const gpio_num_t RELAY_PINS[RELAY_COUNT] = 
+{
+    [RELAY_M1_1] = GPIO_NUM_18,
+    [RELAY_M1_2] = GPIO_NUM_19,
+    [RELAY_M1_3] = GPIO_NUM_4,
+    [RELAY_M1_4] = GPIO_NUM_27,
+
+    [RELAY_M2_1] = GPIO_NUM_26,
+    [RELAY_M2_2] = GPIO_NUM_23, //OK
+    [RELAY_M2_3] = GPIO_NUM_5,
+    [RELAY_M2_4] = GPIO_NUM_14,
+
+    [RELAY_M3_1] = GPIO_NUM_12,
+    [RELAY_M3_2] = GPIO_NUM_21, //OK
+    [RELAY_M3_3] = GPIO_NUM_25, //OK
+    [RELAY_M3_4] = GPIO_NUM_15,
 };
 
-/* COLD (now 6) */
-static const gpio_num_t RELAY_COLD_PINS[6] = {
-    GPIO_NUM_18, //
-    GPIO_NUM_15,//
-    GPIO_NUM_12,//
-    GPIO_NUM_14,//
-    GPIO_NUM_27,   // 14
-    GPIO_NUM_26    // 
-};
-
-#define RELAY_HOT_COUNT   6
-#define RELAY_COLD_COUNT  6
 
 
-/* ============================================================
- * OPTIONAL: FLOAT SWITCH INPUTS (if locally wired later)
- * ============================================================ */
-/*
 
-*/
 
-/* ============================================================
- * SAFETY / DEBUG (OPTIONAL)
- * ============================================================ */
-/*
-#define PIN_EMERGENCY_STOP  GPIO_NUM_23
-#define PIN_STATUS_LED      GPIO_NUM_2
-*/
+
+
+
