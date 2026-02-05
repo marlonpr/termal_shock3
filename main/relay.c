@@ -10,6 +10,33 @@ static const char *TAG = "RELAY";
 /* ============================================================
  * INTERNAL STATE
  * ============================================================ */
+ 
+ 
+ static const uint32_t relay_on_delay_ms[RELAY_SENSOR_COUNT] = {
+    [RELAY_FLOAT1_A] = 50,   // 0.5 s
+    [RELAY_FLOAT1_B] = 50,  // 1.0 s
+    [RELAY_FLOAT2]   = 50,   // 2.0 s
+    [RELAY_FLOAT3]   = 1000   // 2.0 s
+    
+};
+ 
+ 
+ 
+#include "esp_timer.h"
+
+typedef struct {
+    bool     current;      // applied output state
+    bool     pending;      // requested state
+    int64_t  change_ts;    // request timestamp (µs)
+    bool     armed;        // delay active
+} relay_delay_t;
+
+static relay_delay_t relay_state[RELAY_SENSOR_COUNT];
+
+
+ 
+
+ 
 
 #define RELAY_SELF_TEST_DELAY_MS  1000
 
@@ -77,8 +104,11 @@ void relay_init(void)
 
 void relay_all_off(void)
 {
-    mask_relays = 0;
+    //mask_relays = 0; //0x02
+    mask_relays = 0x02;
     apply_outputs();
+    ESP_LOGI(TAG, "Mask relays = 0x%02X", mask_relays);
+
     ESP_LOGW(TAG, "All relays OFF");
 }
 
@@ -86,10 +116,15 @@ void relay_force(uint16_t mask)
 {
     /* Only lower 8 bits are valid */
     mask_relays = mask & 0xFF;
+    
+    if (mask_relays == 0)
+    {
+		mask_relays = 0x02;
+	}
 
     apply_outputs();
 
-    ESP_LOGI(TAG, "Mask relays = 0x%02X", mask_relays);
+    ESP_LOGI(TAG, "Mask relays FORCE = 0x%02X", mask_relays);
 }
 
 
@@ -161,6 +196,95 @@ bool relay_self_test_active(void)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+void relay_sensor_request(uint8_t index, bool on)
+{
+    if (index >= RELAY_SENSOR_COUNT) {
+        ESP_LOGE(TAG, "Invalid relay index");
+        return;
+    }
+
+    relay_delay_t *r = &relay_state[index];
+
+    /* OFF → immediate */
+    if (!on) {
+        r->pending = false;
+        r->armed   = false;
+
+        if (r->current) {
+            r->current = false;
+            sensor_relays &= ~(1 << index);
+            apply_outputs();
+        }
+        return;
+    }
+
+    /* ON → delayed */
+    if (!r->current && !r->armed) {
+        r->pending   = true;
+        r->change_ts = esp_timer_get_time();
+        r->armed     = true;
+    }
+}
+
+
+
+
+
+
+
+void relay_process(void)
+{
+    int64_t now = esp_timer_get_time();
+
+    for (uint8_t i = 0; i < RELAY_SENSOR_COUNT; i++) {
+
+        relay_delay_t *r = &relay_state[i];
+
+        if (!r->armed)
+            continue;
+
+        if ((now - r->change_ts) >=
+            ((int64_t)relay_on_delay_ms[i] * 1000)) {
+
+            r->armed   = false;
+            r->current = true;
+
+            sensor_relays |= (1 << i);
+            apply_outputs();
+        }
+    }
+}
+
+
+
+
+void sensors_update(bool float1_ok, bool float2_ok)
+{
+    relay_sensor_request(RELAY_FLOAT1_A, !float1_ok);
+    relay_sensor_request(RELAY_FLOAT1_B, !float1_ok);
+    relay_sensor_request(RELAY_FLOAT2,    float2_ok);
+}
+
+
+
+
+
+
+
+/*
 void relay_sensor_set(uint8_t index, bool on)
 {
     if (index >= RELAY_SENSOR_COUNT) {
@@ -178,10 +302,16 @@ void relay_sensor_set(uint8_t index, bool on)
 }
 
 
+
 void sensors_update(bool float1_ok, bool float2_ok)
 {
     relay_sensor_set(RELAY_FLOAT1_A, !float1_ok);
     relay_sensor_set(RELAY_FLOAT1_B, !float1_ok);
-    //relay_sensor_set(RELAY_FLOAT2,   float2_ok);
+    relay_sensor_set(RELAY_FLOAT2,   float2_ok);
 }
+
+
+
+
+*/
 

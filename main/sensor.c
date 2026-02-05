@@ -114,6 +114,8 @@ void sensor_task(void *arg)
 
         /* Update SENSOR-CONTROLLED relays ONLY */
         sensors_update(float1_ok, float2_ok);
+        //new sensor delay handling
+        relay_process();
 
         vTaskDelay(pdMS_TO_TICKS(1000));
     }

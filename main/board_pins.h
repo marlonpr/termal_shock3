@@ -1,3 +1,4 @@
+
 #pragma once
 #include "driver/gpio.h"
 
@@ -25,29 +26,30 @@
 #define RELAY_FLOAT1_A   1   // Relay 9
 #define RELAY_FLOAT1_B   2   // Relay 10
 #define RELAY_FLOAT2     3   // Relay 11
+#define RELAY_FLOAT3     0   // Relay 8
 
 
 
 
 typedef enum 
 {
-	//M1
+	//M1 - TIEMPO
     RELAY_M1_1 = 0, //EV4
     RELAY_M1_2,		//EV7		
-    RELAY_M1_3,		//EV2
-    RELAY_M1_4,		//EV1*
+    RELAY_M1_3,		//EV2 <- GPIO_NUM_25 //B2 - SN3 - EV2 (SENSOR)
+    RELAY_M1_4,		//
 
-	//M2
-    RELAY_M2_1,		//B1*
+	//M2 - TIEMPO
+    RELAY_M2_1,		//B3 - EV3
     RELAY_M2_2,		//EV3
     RELAY_M2_3,		//
 	RELAY_M2_4,		//
 
-	//M3
+	//M3 - SENSORES
     RELAY_M3_1,		//
-    RELAY_M3_2,		//B2
-    RELAY_M3_3,		//EV6
-	RELAY_M3_4,		//EV5*
+    RELAY_M3_2,		//B2 - SN3 - EV2
+    RELAY_M3_3,		// GPIO_NUM_4 (TIEMPO)
+	RELAY_M3_4,		//B1 - SN1
 
 	RELAY_COUNT
 
@@ -65,13 +67,13 @@ static const gpio_num_t RELAY_PINS[RELAY_COUNT] =
     [RELAY_M1_4] = GPIO_NUM_27,
 
     [RELAY_M2_1] = GPIO_NUM_26,
-    [RELAY_M2_2] = GPIO_NUM_23, //OK
+    [RELAY_M2_2] = GPIO_NUM_23, 
     [RELAY_M2_3] = GPIO_NUM_5,
     [RELAY_M2_4] = GPIO_NUM_14,
 
     [RELAY_M3_1] = GPIO_NUM_12,
-    [RELAY_M3_2] = GPIO_NUM_21, //OK
-    [RELAY_M3_3] = GPIO_NUM_25, //OK
+    [RELAY_M3_2] = GPIO_NUM_21, 
+    [RELAY_M3_3] = GPIO_NUM_25, //OK ***(EV2) M1
     [RELAY_M3_4] = GPIO_NUM_15,
 };
 

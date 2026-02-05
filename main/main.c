@@ -49,10 +49,10 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Actuator ready (command-driven)");
 
-	vTaskDelay(pdMS_TO_TICKS(3000));
+	vTaskDelay(pdMS_TO_TICKS(1000));
 
 
-
+	relay_all_off();
 	
 
 

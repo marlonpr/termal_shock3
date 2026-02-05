@@ -23,3 +23,5 @@ void relay_self_test_tick(void);
 bool relay_self_test_active(void);
 
 void sensors_update(bool float1, bool float2);
+
+void relay_process(void);
